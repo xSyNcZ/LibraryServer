@@ -10,16 +10,24 @@ import java.io.File;
 
 /*TODO:
  * WAŻNE:
- * 	0. Add FIleSave to everything
+ * 	X0. Add FIleSave to everything
  *  1. Server comms
  *  2. Lamda exp.
  *  3. Separate database file
  *  4. Clean up of code
+ *  5. Add a function addBook
+ *  6. Add GUI
  *  
  * MNIEJ WAŻNE:
- * 
+ *  1. Add different functions
+ *  2. readFileLinesToLibraries i readFileWordsToBooks - sprawdz czy da sie zrobić w 1 metode
+ *  3. Zmerguj tak wszystkie metody
+ *  4. Uporządkuj nieco kod
+ *  5. Sprawdz, czy wszystko w klasach jest "czyste" (tj. clean code) i ew. wyczyść
+ *  
  * XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
  * PO WYKONANIU KTÓREGOŚ ZADANIA Z LISTY PRZED NUMERKIEM OZNACZ ZNAKIEM "X"
+ * !!!PRIORYTETEM JEST, ABY TO DZIAŁAŁO!!!
  */
 
 public class LibraryRunner {
