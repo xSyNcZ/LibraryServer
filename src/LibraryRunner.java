@@ -10,6 +10,7 @@ import java.io.File;
 
 /*TODO:
  * WAŻNE:
+ * 	0. Add FIleSave to everything
  *  1. Server comms
  *  2. Lamda exp.
  *  3. Separate database file
@@ -142,6 +143,7 @@ public class LibraryRunner {
 				System.out.println("Nie ma książki o takim indeksie w danej biliotece");
 			} else {
 				libraries.get(name.toUpperCase()).multiplyBook(choosenIndex-1);
+				saveListOfBooksToFile(name.toUpperCase());
 				System.out.println("Powielono podaną książkę");
 			}
 		}
@@ -164,6 +166,7 @@ public class LibraryRunner {
 				System.out.println("Nie ma książki o takim indeksie w danej biliotece");
 			} else {
 				libraries.get(name.toUpperCase()).deleteBook(choosenIndex-1);
+				saveListOfBooksToFile(name.toUpperCase());
 				System.out.println("Usunięto podaną książkę");
 			}
 		}
@@ -218,10 +221,25 @@ public class LibraryRunner {
 		}
 	}
 	
+	public void saveListOfBooksToFile(String libraryName) {
+		String filePathWay = libraryName.toUpperCase() + ".txt";
+		try {
+			BufferedWriter output = new BufferedWriter(new FileWriter(filePathWay));
+			int numberOfBooks = libraries.get(libraryName).numberOfBooks();
+			for(int i=0; i<numberOfBooks;i++) {
+				output.write(libraries.get(libraryName).toDBCode(i) + "\n");
+			}
+			output.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+		
 	public void createNewLibraryBookListFile(String fileName) {
 		String filePathWay = fileName.toUpperCase() + ".txt";
 		try {
 			BufferedWriter output = new BufferedWriter(new FileWriter(filePathWay));
+			
 			output.close();
 		} catch (IOException e) {
 			e.printStackTrace();

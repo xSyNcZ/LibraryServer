@@ -23,6 +23,11 @@ public class Library {
 			}
 		}
 	}
+	
+	public int numberOfBooks() {
+		int booklistSize = booklist.size();
+		return booklistSize;
+	}
 
 	public void deleteBook(int choosenLibraryIndex) {
 		booklist.remove(choosenLibraryIndex);
@@ -31,6 +36,12 @@ public class Library {
 	public void multiplyBook(int choosenLibraryIndex) {
 		Book toMultiply = booklist.get(choosenLibraryIndex);
 		booklist.add(toMultiply);
+	}
+	
+	public String toDBCode(int choosenLibraryIndex) {
+		Book toDBCode = booklist.get(choosenLibraryIndex);
+		String DBCode = toDBCode.getAuthor() + ";" + toDBCode.getTitle() + ";" + toDBCode.getPublisher() + ";" + toDBCode.getNumberOfPages(); 
+		return DBCode;
 	}
 	
 	public boolean doesExist(int choosenBookIndex) {

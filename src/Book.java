@@ -60,11 +60,8 @@ public class Book {
 		this.numberOfPages = numberOfPages;
 	}
 
-
-
 	@Override
 	public String toString() {
 		return "Book: author= " + author + ", {" + title + "} [" + publisher + "], (" + numberOfPages + ")";
 	}
-
 }
