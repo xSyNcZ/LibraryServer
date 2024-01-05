@@ -17,6 +17,8 @@ import java.io.File;
  *  4. Clean up of code
  *  5. Add a function addBook
  *  6. Add GUI
+ *  X7. Fix multibplyBook
+ *  8. Fix saving books to file
  *  
  * MNIEJ WAŻNE:
  *  1. Add different functions
@@ -24,6 +26,7 @@ import java.io.File;
  *  3. Zmerguj tak wszystkie metody
  *  4. Uporządkuj nieco kod
  *  5. Sprawdz, czy wszystko w klasach jest "czyste" (tj. clean code) i ew. wyczyść
+ *  6. Dodaj usuwanie bibliotek
  *  
  * XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
  * PO WYKONANIU KTÓREGOŚ ZADANIA Z LISTY PRZED NUMERKIEM OZNACZ ZNAKIEM "X"
@@ -67,7 +70,8 @@ public class LibraryRunner {
 		System.out.println("	(1) Dodaj bibliotekę");
 		System.out.println("	(2) Zduplikuj książkę w bibliotece");
 		System.out.println("	(3) Usuń książkę w bibliotece");
-		System.out.println("	(4) Zakończ działanie programu");
+		System.out.println("	(4) Dodaj książkę do biblioteki");
+		System.out.println("	(5) Zakończ działanie programu");
 	}
 
 	public int getOption() {
@@ -92,6 +96,9 @@ public class LibraryRunner {
 			deleteBook();
 			break;
 		case 4:
+			addBook();
+			break;
+		case 5:
 			System.exit(0);
 			break;
 
@@ -147,7 +154,7 @@ public class LibraryRunner {
 			library.showLibrary();
 			System.out.println("Którą książkę chcesz powielić? Podaj index: ");
 			int choosenIndex = sc.nextInt();
-			if (libraries.get(name.toUpperCase()).doesExist(choosenIndex) == false) {
+			if (libraries.get(name.toUpperCase()).doesExist(choosenIndex-1) == false) {
 				System.out.println("Nie ma książki o takim indeksie w danej biliotece");
 			} else {
 				libraries.get(name.toUpperCase()).multiplyBook(choosenIndex-1);
@@ -177,6 +184,29 @@ public class LibraryRunner {
 				saveListOfBooksToFile(name.toUpperCase());
 				System.out.println("Usunięto podaną książkę");
 			}
+		}
+	}
+	
+	public void addBook() {
+		System.out.println("Dostępne biblioteki: ");
+		displayLibraries();
+		System.out.println("Do której biblioteki chcesz dodać książkę: ");
+		sc.nextLine();
+		String name = sc.nextLine();
+		if (libraries.containsKey(name.toUpperCase()) != true) {
+			System.out.println("Nie ma takiej biblioteki");
+		} else {
+			System.out.println("Podaj autora książki: ");
+			String Author = sc.nextLine();
+			System.out.println("Podaj tytuł książki: ");
+			String Title = sc.nextLine(); 
+			System.out.println("Podaj wydawcę książki: ");
+			String Publisher = sc.nextLine();
+			System.out.println("Podaj ilość stron książki: ");
+			int numOfPages = sc.nextInt();
+			libraries.get(name.toUpperCase()).addBook(new Book(Author, Title, Publisher, numOfPages));
+			saveListOfBooksToFile(name.toUpperCase());
+			System.out.println("Dodano wybraną książkę");
 		}
 	}
 
@@ -254,9 +284,9 @@ public class LibraryRunner {
 		}
 	}
 	
-	public static void main(String[] args) {
-		LibraryRunner librun = new LibraryRunner();
-		librun.turnOn();
-		System.out.println("----- KONIEC -----");
-	}
+//	public static void main(String[] args) {
+//		LibraryRunner librun = new LibraryRunner();
+//		librun.turnOn();
+//		System.out.println("----- KONIEC -----");
+//	}
 }
