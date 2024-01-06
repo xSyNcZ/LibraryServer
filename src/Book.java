@@ -62,6 +62,6 @@ public class Book {
 
 	@Override
 	public String toString() {
-		return "Book: author= " + author + ", {" + title + "} [" + publisher + "], (" + numberOfPages + ")";
+		return "Autor: " + author + ", Tytuł: " + title + ", Wydawca: " + publisher + ", Ilość stron: " + numberOfPages;
 	}
 }
