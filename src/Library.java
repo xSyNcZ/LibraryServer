@@ -1,3 +1,4 @@
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -14,12 +15,14 @@ public class Library {
 		booklist.add(book);
 	}
 
-	public void showLibrary() {
+	public void showLibrary(PrintWriter out) {
 		if (booklist.size() == 0) {
-			System.out.println("Biblioteka " + library_name + " jest pusta!");
+			out.println("Biblioteka " + library_name + " jest pusta!");
+			out.flush();
 		} else {
 			for (int i = 0; i < booklist.size(); i++) {
-				System.out.println((i + 1) + ". " + booklist.get(i).toString());
+				out.println((i + 1) + ". " + booklist.get(i).toString());
+				out.flush();
 			}
 		}
 	}
