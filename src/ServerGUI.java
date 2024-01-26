@@ -71,6 +71,7 @@ public class ServerGUI extends JFrame{
         server.stopServer();
         logMessage("Server stopped.");
         // Nie zmieniaj stanu przycisku, aby GUI pozostało aktywne
+        // OK, nie bede :D
     }
 
     private void logMessage(String message) {
