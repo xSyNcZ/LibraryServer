@@ -7,50 +7,90 @@ import java.util.concurrent.Executors;
 
 public class Client {
 
-    public static void main(String[] args) {
+    private Socket socket;
+    private PrintWriter out;
+    private BufferedReader in;
+    private ExecutorService executor;
+    private ClientGUI clientGUI;
+
+    public Client(ClientGUI clientGUI) {
         try {
-            Socket socket = new Socket("localhost", 4444);
+            this.clientGUI = clientGUI;
+            socket = new Socket("localhost", 4444);
             System.out.println("CLIENT: Server connected on port 4444");
 
-            PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
-            BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+            out = new PrintWriter(socket.getOutputStream(), true);
+            in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
 
-            ExecutorService executor = Executors.newFixedThreadPool(2);
+            executor = Executors.newFixedThreadPool(2);
 
             executor.submit(() -> {
                 try {
                     String serverResponse;
                     while ((serverResponse = in.readLine()) != null && !serverResponse.equals("END")) {
-                    	//System.out.println("Server: " + serverResponse);
-                    	System.out.println(serverResponse);
+                        handleServerResponse(serverResponse);
                     }
                 } catch (Exception e) {
                     System.err.println("CLIENT: Exception in serverReader: " + e);
                 }
             });
 
-            executor.submit(() -> {
-                try {
-                    BufferedReader console = new BufferedReader(new InputStreamReader(System.in));
-                    String userInput;
-                    while (true) {
-                        userInput = console.readLine();
-                        out.println(userInput);
-                        out.flush();
-                        if (userInput.equals("5")) {
-                            break;
-                        }
-                    }
-                    // Close the server connection after client sends "5"
-                    socket.close();
-                } catch (Exception e) {
-                    System.err.println("CLIENT: Exception in userInputThread: " + e);
-                }
-            });
-
-            executor.shutdown();
         } catch (Exception e) {
             System.err.println("CLIENT: Exception:  " + e);
         }
+    }
+
+    private void handleServerResponse(String response) {
+        // Zamiast wypisywać na konsolę, teraz wywołujemy metodę appendToTextArea w ClientGUI
+        clientGUI.appendToTextArea(response);
+        // Tutaj możesz umieścić logikę obsługi odpowiedzi serwera
+    }
+
+    public void sendUserInput(String userInput) {
+        out.println(userInput);
+        out.flush();
+        if (userInput.equals("5")) {
+            closeConnection();
+        }
+    }
+
+    private void closeConnection() {
+        try {
+            socket.close();
+            executor.shutdown();
+        } catch (Exception e) {
+            System.err.println("CLIENT: Exception while closing connection: " + e);
+        }
+    }
+
+    // Dodaj metody obsługujące różne komendy
+    public void showLibrary() {
+        // Logika dla polecenia "Show library"
+        sendUserInput("SHOW_LIBRARY_COMMAND");
+    }
+
+    public void addLibrary() {
+        // Logika dla polecenia "Add new library"
+        sendUserInput("ADD_LIBRARY_COMMAND");
+    }
+
+    public void duplicateBook() {
+        // Logika dla polecenia "Duplicate existing book"
+        sendUserInput("DUPLICATE_BOOK_COMMAND");
+    }
+
+    public void deleteBook() {
+        // Logika dla polecenia "Delete existing book"
+        sendUserInput("DELETE_BOOK_COMMAND");
+    }
+
+    public void addBook() {
+        // Logika dla polecenia "Add new book"
+        sendUserInput("ADD_BOOK_COMMAND");
+    }
+
+    public void exit() {
+        // Logika dla polecenia "Exit the program"
+        sendUserInput("EXIT_COMMAND");
     }
 }
